@@ -15,7 +15,7 @@
 - cantidad_pasajeros.csv: Dataset de pasajeros transportados por pais y año obtenido del databank del banco mundial.
 - col_country.csv: archivo auxiliar con la columna de paises creada usando el geolocalizador de geopy sobre la columna de lugar de accidente 'place', se utiliza para saltarse el paso de geolocalización ya que este es muy demorado.
 
-# Definición de variables
+# Diccionario de datos
 
 - tabla accidentes
     - 'date': fecha del accidente.                              
@@ -61,14 +61,13 @@
     - ground            4964         
     - summary           4949   
 
-- ouliers: se encontraron un accidente con mas de 600 pasajeros abordo que correspondía a un accidente entre dos aviones grandes. En fallecidos en tierra se encontraron dos incidentes con mas de 2700 víctimas que correspondía a los atentados en new york en las torres gemelas en el 2001. debido a que que estos aoutliers si representaban la realidad no se realizó ninguna acción sobre estos.
-
+- Ouliers: se encontró un accidente con mas de 600 pasajeros abordo que correspondía a un accidente entre dos aviones grandes. En fallecidos en tierra se encontraron dos incidentes con mas de 2700 víctimas que correspondía a los atentados en new york en las torres gemelas en el 2001. Debido a que que estos outliers si representaban la realidad no se realizó ninguna acción sobre estos.
 
  - Inconsistencias: 
     - operador: en operador de encontraron operadores con mas de un tipo de escritura ej: Military - Royal Air Force y Military -Royal Air Force. acción se unificaron los datos.
     - pass_aboard mayor que all_aboard: 4 filas, se aplicó all_aboard = pass_aboard + crew_aboard.
    
-# Flujo de trabajo de preprocesamiento de datos.
+# Flujo de trabajo de preprocesamiento de datos y análisis.
 
 - Carga de dataset de accidentes.
 - Transformación de fecha y hora a formato datetime.
@@ -83,5 +82,12 @@
 - Reorganización de la tabla de pasajeros para obtener solo tres columnas : country , anio, passengers, sin valores nulos.
 - Cambios de nombre y formato de columnas de la tabla de pasajeros.
 - Carga de dataframe a base de datos 'oaci' almacenada en el servidor local: se adicionan dos tablas 'accidentes' y 'passenger', utilizando la libreria sqlalchemy.
+- carga de los datos de la base de datos local 'oaci' al archivo 'Dashboard_oaci.pbix' utilizando el conector de mysql.
+- Analisis: el analisis se dividió en 5 partes:
+    - Tiempo: se analizó la relación de accidentalidad con las variables fechas y hora, se busco estacionalidad y evolución de porcentaje de sobrevivientes a traves del tiempo.
+    - Geografia: se identificaron los lugares y rutas mas accidentadas y con mayor número de muertes, introduciendo al análisis la variable cantidad de pasajeros abordo y fechas.
+    - Aerolinea: se realizó el ranking de aerolineas con mas mortalidad y se identificaron cambios a traves del tiempo.
+    - Aeronave: se encontró la inlfuencia del tamaño de aeronave con la cantidad de accidentes, la cantidad de muertes y el porcentaje de sobrevivencia.
+    - Ad: se respondieron dos preguntas adicionales:¿Son comunes los accidentes entre dos aeronaves? y ¿la ocurrencia de los accidentes disuade las personas de viajar por aire, en colombia?.
 
 
